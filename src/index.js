@@ -5,7 +5,7 @@ import App from './App';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root')); //use strict mode to find common bugs in our components
-root.render(<App subject="Clarice" />);
+root.render(<App subject="KrOOb" />);
 
 
 // If you want to start measuring performance in your app, pass a function
