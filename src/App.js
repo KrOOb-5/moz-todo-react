@@ -1,4 +1,4 @@
-import Todo from "./components/Todo,js";
+import Todo from "./components/Todo.js";
 
 
 function App(props) {
@@ -44,9 +44,9 @@ function App(props) {
         role="list"
         className="todo-list stack-large stack-exception"
         aria-labelledby="list-heading">
-        <Todo />
-        <Todo />
-        <Todo />
+        <Todo state = "Eat" completed={true} />
+        <Todo state = "Sleep" />
+        <Todo state = "Repeat" />
       </ul>
     </div>
   );
