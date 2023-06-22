@@ -1,13 +1,13 @@
 import React from "react";
 
 function Todo(props) {
-  console.log(props);
+  //console.log(props); Nao entendo o span (html) -- So far, so good?
   return (
     <li className="todo stack-small">
       <div className="c-cb">
-        <input id="todo-0" type="checkbox" defaultChecked={true} />
-        <label className="todo-label" htmlFor="todo-0">
-          {props.name}
+        <input id={props.id} type="checkbox" defaultChecked={props.completed} />
+        <label className="todo-label" htmlFor={props.id}>
+          {props.name} 
         </label>
       </div>
       <div className="btn-group">
