@@ -5,7 +5,7 @@ import Todo from "./components/Todo";
 // React interactivity: Events and state
 function App(props) {
   const taskList = props.tasks.map((task) => (
-    <Todo
+    <Todo 
       id={task.id}
       name={task.name}
       completed={task.completed}
