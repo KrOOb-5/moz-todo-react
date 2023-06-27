@@ -5,7 +5,7 @@ function Form(props) {
 
 
   function handleChange(e){
-    setName(e.target.value);
+    setName(e.target.value); // you can access the input's value property.
   }
   
 
@@ -30,7 +30,7 @@ function Form(props) {
           name="text"
           autoComplete="off"
           value={name}
-          onChange={handleChange}
+          onChange={handleChange} //onChange Event -capture a user's input as they type
         />
         <button type="submit" className="btn btn__primary btn__lg">
           Add
