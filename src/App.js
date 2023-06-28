@@ -7,7 +7,7 @@ import Todo from "./components/Todo";
 //tudo oque passo pelos componentes e prop
 //map pensar conveyr belt 
 function App(props) {
-  
+  //console.log(props);
   const [tasks, setTasks] = useState(props.tasks); //props.tasks === tasks
   
 
@@ -16,12 +16,17 @@ function App(props) {
     setTasks([...tasks, newTask]); //spread operator
   }
   
+  function toggleTaskCompleted(id) {
+    console.log(tasks[0]);
+  }
+
   const taskList = tasks.map((task) => (
     <Todo 
       id={task.id}
       name={task.name}
       completed={task.completed}
       key={task.id}
+      toggleTaskCompleted={toggleTaskCompleted}
     />
   ));
 
