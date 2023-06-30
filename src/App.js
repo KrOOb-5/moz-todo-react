@@ -3,13 +3,35 @@ import React, {useState} from "react";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
-//Editing from the UI
-//tudo oque passo pelos componentes e prop
-//map pensar conveyr belt 
+//Filtering tasks in the UI
+//tudo o que passo pelos componentes(funcoes) e prop
+//var.map pensar conveyr belt 
+
+//Defining these outside because we dont want this to be recaculated every time app runs
+const FILTER_MAP = {
+  All: () => true,
+  Active: (task) => !task.completed, //shows completed prop is false
+  Completed: (task) => task.completed,
+  //Delete: (task) => task.delete,
+};
+const FILTER_NAMES = Object.keys(FILTER_MAP);
+
+
+
 function App(props) {
   
   const [tasks, setTasks] = useState(props.tasks); //props.tasks === tasks
-  
+  const [filter, setFilter] = useState("All");
+
+  const filterList = FILTER_NAMES.map((name) => (
+    <FilterButton 
+      key={name} 
+      name={name} 
+      isPressed={name === filter}
+      setFilter={setFilter}
+      />
+  ));
+
 
   function addTask(name) {
     const newTask = { id: `todo-${nanoid()}`, name, completed:false }; //id diferente (so o numero)
@@ -64,9 +86,7 @@ function App(props) {
       <h1>TodoMatic</h1>
       <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">
-        <FilterButton />
-        <FilterButton />
-        <FilterButton />
+        {filterList}
       </div>
       <h2 id="list-heading">{headingText}</h2>
       <ul
