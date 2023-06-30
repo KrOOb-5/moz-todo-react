@@ -3,21 +3,45 @@ import React, {useState} from "react";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
-// Completing a task
+//Editing from the UI
 //tudo oque passo pelos componentes e prop
 //map pensar conveyr belt 
 function App(props) {
-  //console.log(props);
+  
   const [tasks, setTasks] = useState(props.tasks); //props.tasks === tasks
   
 
   function addTask(name) {
     const newTask = { id: `todo-${nanoid()}`, name, completed:false }; //id diferente (so o numero)
-    setTasks([...tasks, newTask]); //spread operator
+    setTasks([...tasks, newTask]); //spread syntax
   }
   
   function toggleTaskCompleted(id) {
-    console.log(tasks[0]);
+    const updatedTasks = tasks.map((task) => {
+      // if this task has the same ID as the edited task
+      if (id === task.id) {
+        // use object spread to make a new object
+        // whose `completed` prop has been inverted
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  }
+  
+  function deleteTask(id){
+    const remainingTasks = tasks.filter((task) => id !== task.id);
+    setTasks(remainingTasks);
+  }
+
+  function editTask(id, newName) {
+    const editedTaskList = tasks.map((task) => {//this task is used inside this function
+      if (id === task.id) {
+        return {...task, name:newName };
+      }
+      return task;
+    })
+    setTasks(editedTaskList);
   }
 
   const taskList = tasks.map((task) => (
@@ -27,6 +51,8 @@ function App(props) {
       completed={task.completed}
       key={task.id}
       toggleTaskCompleted={toggleTaskCompleted}
+      deleteTask={deleteTask}
+      editTask={editTask}
     />
   ));
 
