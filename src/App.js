@@ -1,5 +1,5 @@
 import {nanoid} from "nanoid";
-import React, {useState} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
@@ -18,7 +18,7 @@ const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 
 
-function App(props) {
+export default function App(props) {
   
   const [tasks, setTasks] = useState(props.tasks); //props.tasks === tasks
   const [filter, setFilter] = useState("All");
@@ -66,20 +66,23 @@ function App(props) {
     setTasks(editedTaskList);
   }
 
-  const taskList = tasks.map((task) => (
-    <Todo 
-      id={task.id}
-      name={task.name}
-      completed={task.completed}
-      key={task.id}
-      toggleTaskCompleted={toggleTaskCompleted}
-      deleteTask={deleteTask}
-      editTask={editTask}
-    />
+  const taskList = tasks
+    .filter(FILTER_MAP[filter])
+    .map((task) => (
+      <Todo 
+        id={task.id}
+        name={task.name}
+        completed={task.completed}
+        key={task.id}
+        toggleTaskCompleted={toggleTaskCompleted}
+        deleteTask={deleteTask}
+        editTask={editTask}
+      />
   ));
 
   const tasksNoun = taskList.length !== 1 ? "tasks" : "task"; //muda a string para "tasks" se a taskList tiver mais de que 1 object no array
   const headingText = `${taskList.length} ${tasksNoun} remaining`; //heading a ser atualizado consoante o lenght do array 
+  const listHeadingRef = useRef(null);
 
   return (
     <div className="todoapp stack-large">
@@ -88,7 +91,7 @@ function App(props) {
       <div className="filters btn-group stack-exception">
         {filterList}
       </div>
-      <h2 id="list-heading">{headingText}</h2>
+      <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>{headingText}</h2>
       <ul
         role="list"
         className="todo-list stack-large stack-exception"
@@ -98,5 +101,3 @@ function App(props) {
     </div>
   );
 }
-
-export default App;

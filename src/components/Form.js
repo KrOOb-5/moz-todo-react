@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-function Form(props) {
+export default function Form(props) {
   const [name, setName] = useState(""); //the state, and a function that can be used to update the state later.
 
 
@@ -38,5 +38,3 @@ function Form(props) {
       </form>
     );
   }
-
-  export default Form;

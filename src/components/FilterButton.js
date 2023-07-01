@@ -1,6 +1,6 @@
 import React from "react";
 
-function FilterButton(props) {
+export default function FilterButton(props) {
   return (
     <button
       type="button"
@@ -13,4 +13,3 @@ function FilterButton(props) {
     </button>
   );
 }
-  export default FilterButton;

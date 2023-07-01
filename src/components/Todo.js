@@ -1,8 +1,20 @@
-import React, {useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-function Todo(props) {
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
+export default function Todo(props) {
   const [isEditing, setEditing] = useState(false); //false
   const [newName, setNewName] = useState("");
+  const wasEditing = usePrevious(isEditing);
+
+  const editFieldRef = useRef(null);
+  const editButtonRef = useRef(null);
 
   function handleChange(e) {
     setNewName(e.target.value);
@@ -28,6 +40,7 @@ function Todo(props) {
             className="todo-text" 
             type="text" 
             onChange={handleChange}
+            ref={editFieldRef}
         />
       </div>
       <div className="btn-group">
@@ -56,7 +69,11 @@ function Todo(props) {
         </label>
       </div>
       <div className="btn-group">
-        <button type="button" className="btn" onClick={() => setEditing(true)}>
+        <button 
+          type="button" 
+          className="btn" 
+          onClick={() => setEditing(true)}
+          ref={editButtonRef}>
           Edit <span className="visually-hidden">{props.name}</span>
         </button>
         <button
@@ -69,8 +86,17 @@ function Todo(props) {
     </div>
   );
   
+  useEffect(() => {
+    if (!wasEditing && isEditing) {
+      editFieldRef.current.focus();
+    }
+    if(wasEditing && !isEditing) {
+      editButtonRef.current.focus();
+    }
+  }, [wasEditing, isEditing]);
+  
+  
   return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
 }
 //Span if setting visually-visible relates the button to the activity "delete {props.name}" this was more to help screen-readers
 //htmlFor is for when you submit dai ter um id especifico
-export default Todo;
