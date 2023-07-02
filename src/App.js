@@ -7,6 +7,14 @@ import Todo from "./components/Todo";
 //tudo o que passo pelos componentes(funcoes) e prop
 //var.map pensar conveyr belt 
 
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
 //Defining these outside because we dont want this to be recaculated every time app runs
 const FILTER_MAP = {
   All: () => true,
@@ -83,6 +91,15 @@ export default function App(props) {
   const tasksNoun = taskList.length !== 1 ? "tasks" : "task"; //muda a string para "tasks" se a taskList tiver mais de que 1 object no array
   const headingText = `${taskList.length} ${tasksNoun} remaining`; //heading a ser atualizado consoante o lenght do array 
   const listHeadingRef = useRef(null);
+  const prevTaskLength = usePrevious(tasks.length);
+
+
+  useEffect(() => {
+    if (tasks.length - prevTaskLength === -1) {
+      listHeadingRef.current.focus();
+    }
+  }, [tasks.length, prevTaskLength]);
+
 
   return (
     <div className="todoapp stack-large">
